@@ -3,13 +3,12 @@ package com.form.importexport.json
 import com.form.importexport.core.Exporter
 import com.form.importexport.core.Importer
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.jsonArray
 
 class JsonImporter<T>(private val deserializer: (String) -> T) : Importer<T> {
     override suspend fun import(content: String): List<T> {
-        val jsonArray = Json.parseToJsonElement(content)
-        return jsonArray.toString().let { listOf(deserializer(it)) }
+        val jsonArray = Json.parseToJsonElement(content).jsonArray
+        return jsonArray.map { deserializer(it.toString()) }
     }
 }
 

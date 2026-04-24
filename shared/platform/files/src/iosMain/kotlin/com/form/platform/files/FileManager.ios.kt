@@ -19,5 +19,5 @@ actual fun createFileManager(): FileManager = object : FileManager {
 
     override suspend fun listFiles(directory: String): List<String> =
         NSFileManager.defaultManager.contentsOfDirectoryAtPath(directory, null)
-            ?.filterIsInstance<String>() ?: emptyList()
+            ?.mapNotNull { it as? String } ?: emptyList()
 }

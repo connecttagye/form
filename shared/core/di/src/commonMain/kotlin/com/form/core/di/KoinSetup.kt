@@ -9,7 +9,11 @@ val commonModule = module {
     // shared bindings — add as modules grow
 }
 
-fun initKoin(platformModules: List<Module> = emptyList()): KoinApplication =
+fun initKoin(
+    platformModules: List<Module> = emptyList(),
+    config: KoinApplication.() -> Unit = {}
+): KoinApplication =
     startKoin {
+        config()
         modules(commonModule + platformModules)
     }
