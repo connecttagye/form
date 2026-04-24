@@ -1,15 +1,18 @@
 package com.form.util.text
 
-fun String.isValidEmail(): Boolean =
-    matches(Regex("^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$"))
+private val EMAIL_REGEX = Regex("^[A-Za-z0-9._%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$")
+private val WHITESPACE_REGEX = Regex("\\s+")
+private val NON_SLUG_REGEX = Regex("[^a-z0-9]+")
 
-fun String.isNotBlankOrEmpty(): Boolean = isNotBlank() && isNotEmpty()
+fun String.isValidEmail(): Boolean = matches(EMAIL_REGEX)
 
-fun String.trimAndClean(): String = trim().replace(Regex("\\s+"), " ")
+fun String.isNotBlankOrEmpty(): Boolean = isNotBlank()
+
+fun String.trimAndClean(): String = trim().replace(WHITESPACE_REGEX, " ")
 
 fun String.truncate(maxLength: Int, suffix: String = "..."): String {
     require(maxLength >= suffix.length) { "maxLength must be >= suffix.length" }
     return if (length <= maxLength) this else take(maxLength - suffix.length) + suffix
 }
 
-fun String.toSlug(): String = lowercase().replace(Regex("[^a-z0-9]+"), "-").trim('-')
+fun String.toSlug(): String = lowercase().replace(NON_SLUG_REGEX, "-").trim('-')

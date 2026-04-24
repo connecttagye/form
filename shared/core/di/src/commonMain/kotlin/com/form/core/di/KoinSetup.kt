@@ -15,5 +15,5 @@ fun initKoin(
 ): KoinApplication =
     startKoin {
         config()
-        modules(commonModule + platformModules)
+        modules(listOf(commonModule) + platformModules)
     }
