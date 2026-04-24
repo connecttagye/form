@@ -9,8 +9,9 @@ actual class DriverFactory {
         val dbDir = File(System.getProperty("user.home"), ".form")
         dbDir.mkdirs()
         val dbFile = File(dbDir, "form.db")
+        val isNewDb = !dbFile.exists() || dbFile.length() == 0L
         val driver = JdbcSqliteDriver("jdbc:sqlite:${dbFile.absolutePath}")
-        if (!dbFile.exists() || dbFile.length() == 0L) {
+        if (isNewDb) {
             FormDatabase.Schema.create(driver)
         }
         return driver
