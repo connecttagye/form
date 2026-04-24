@@ -26,7 +26,7 @@ jobs:
       - name: Build server
         run: ./gradlew :server:build --no-daemon
       - name: Run tests
-        run: ./gradlew test --no-daemon || true
+        run: ./gradlew test --no-daemon
 
   build-desktop:
     runs-on: ubuntu-latest

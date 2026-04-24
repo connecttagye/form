@@ -3,6 +3,8 @@ package com.form.importexport.json
 import com.form.importexport.core.Exporter
 import com.form.importexport.core.Importer
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonArray
 
 class JsonImporter<T>(private val deserializer: (String) -> T) : Importer<T> {
@@ -12,7 +14,7 @@ class JsonImporter<T>(private val deserializer: (String) -> T) : Importer<T> {
     }
 }
 
-class JsonExporter<T>(private val serializer: (T) -> String) : Exporter<T> {
+class JsonExporter<T>(private val serializer: (T) -> JsonElement) : Exporter<T> {
     override suspend fun export(items: List<T>): String =
-        "[${items.joinToString(",") { serializer(it) }}]"
+        JsonArray(items.map { serializer(it) }).toString()
 }
